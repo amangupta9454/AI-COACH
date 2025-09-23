@@ -1,67 +1,18 @@
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 const ResumeEmbed = () => {
   const [loading, setLoading] = useState(true);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setError('Please log in to access the resume builder');
-        setLoading(false);
-        navigate('/login');
-        return;
-      }
-
-      try {
-        // Set a 6-second timeout for the authentication request
-        const authPromise = axios.get(`${import.meta.env.VITE_BACKEND_URL}api/auth/user`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error('Authentication request timed out')), 6000);
-        });
-
-        await Promise.race([authPromise, timeoutPromise]);
-        setLoading(false);
-      } catch (err) {
-        console.error('Authentication error:', err.message);
-        setError(err.message === 'Authentication request timed out' 
-          ? 'Authentication timed out after 6 seconds. Please try again.' 
-          : err.response?.data?.message || 'Failed to authenticate');
-        setLoading(false);
-        localStorage.removeItem('token');
-        navigate('/login');
-      }
-    };
-
-    checkAuth();
-
-    // Fallback to show iframe after 6 seconds if onLoad doesn't trigger
-    const fallbackTimer = setTimeout(() => {
-      if (!iframeLoaded) {
-        console.warn('Iframe load fallback triggered after 6 seconds');
-        setIframeLoaded(true);
-      }
-    }, 6000);
-
-    return () => clearTimeout(fallbackTimer);
-  }, [navigate, iframeLoaded]);
 
   const handleIframeLoad = () => {
     setIframeLoaded(true);
+    setLoading(false);
   };
 
   const handleIframeError = () => {
     console.error('Iframe failed to load');
-    setError('Failed to load the resume builder after 6 seconds. Please try again later.');
+    setError('Failed to load the resume builder. Please try again later.');
     setIframeLoaded(true);
     setLoading(false);
   };
@@ -98,11 +49,11 @@ const ResumeEmbed = () => {
         <div className="max-w-md w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-2xl shadow-gray-500/25 text-center transform animate-formEntrance">
           <p className="text-red-400 text-lg font-medium mb-6 animate-fadeInUp">{error}</p>
           <a
-            href="/login"
+            href="/"
             className="group relative inline-block px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-400 text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl hover:shadow-gray-500/50 transition-all duration-300 hover:scale-105 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-gray-600 to-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative">Go to Login</div>
+            <div className="relative">Go to Home</div>
           </a>
         </div>
       </div>
