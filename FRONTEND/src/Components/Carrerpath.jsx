@@ -9,12 +9,14 @@ const safeParseJson = (text) => {
     console.error("Initial JSON parse failed:", err.message);
     // Clean text by removing markdown, comments, and trailing commas
     const cleanedText = text
-      .replace(/```json\n?/g, "") // Remove ```json
-      .replace(/```\n?/g, "") // Remove ```
-      .replace(/\/\/.*?\n/g, "") // Remove single-line comments
-      .replace(/\/\*[\s\S]*?\*\//g, "") // Remove multi-line comments
-      .replace(/,(\s*[}\]])/g, "$1") // Remove trailing commas
-      .trim();
+      ? text
+          .replace(/```json\n?/g, "")
+          .replace(/```\n?/g, "")
+          .replace(/\/\/.*?\n/g, "")
+          .replace(/\/\*[\s\S]*?\*\//g, "")
+          .replace(/,(\s*[}\]])/g, "$1")
+          .trim()
+      : "";
     try {
       return JSON.parse(cleanedText);
     } catch (cleanError) {
@@ -51,8 +53,10 @@ const CareerPath = () => {
     setIsMounted(true);
   }, []);
 
-  // WARNING: Hardcoding API keys in frontend code is insecure. Consider moving to a backend service.
-  const genAI = new GoogleGenerativeAI("AIzaSyBPuoHFNOShuRM89rDDteWLXJKuC9KASTg");// new api key using ai coach email
+  // Initialize GoogleGenerativeAI with environment variable
+  const genAI = import.meta.env.VITE_GOOGLE_API_KEY
+    ? new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY)
+    : null;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -265,7 +269,7 @@ const CareerPath = () => {
     - Defense Services - Army, Navy, Air Force (Soldier rank)
     - Police Constable
     - Railway Jobs (Group D)
-    - Banking (Clerk level)
+    - Banking (Clerical level)
 
     AFTER CLASS 12 OPPORTUNITIES:
     - All Graduate courses (Engineering, Medical, Commerce, Arts)
@@ -460,27 +464,54 @@ const CareerPath = () => {
     setError("");
 
     try {
+      if (!genAI) {
+        throw new Error("GoogleGenerativeAI is not initialized. Check API key configuration in your environment variables.");
+      }
       const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-        generationConfig: {
-          temperature: 0.6,
-          topK: 20,
-          topP: 0.8,
-          maxOutputTokens: 8192,
-        },
+        model: "gemini-2.5-flash",
       });
 
       const prompt = generatePrompt();
       const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
 
+      // Log the full result for debugging
+      console.log("Full API Result:", JSON.stringify(result, null, 2));
+
+      // Access the response object
+      const response = result.response;
+
+      // Enhanced response validation
+      let text;
+      if (response && response.candidates && Array.isArray(response.candidates) && response.candidates.length > 0) {
+        const candidate = response.candidates[0];
+        if (candidate.content && candidate.content.parts && Array.isArray(candidate.content.parts) && candidate.content.parts.length > 0) {
+          text = candidate.content.parts[0].text;
+        } else if (candidate.output) {
+          text = candidate.output; // Fallback for alternative response structure
+        } else {
+          console.error("No valid content in candidate:", JSON.stringify(candidate, null, 2));
+          throw new Error("No valid content found in response.candidates[0].");
+        }
+      } else {
+        console.error("Invalid or empty response structure:", JSON.stringify(response, null, 2));
+        throw new Error("Invalid API response: Missing candidates or invalid structure.");
+      }
+
+      if (!text) {
+        console.error("Response text is empty");
+        throw new Error("Empty response content received from the API.");
+      }
 
       // Clean and extract JSON
       const cleanedText = text
         .replace(/```json\n?/g, "")
         .replace(/```\n?/g, "")
         .trim();
+
+      if (!cleanedText) {
+        console.error("Cleaned text is empty");
+        throw new Error("Empty response received after cleaning.");
+      }
 
       const jsonStart = cleanedText.indexOf("{");
       const jsonEnd = cleanedText.lastIndexOf("}") + 1;
@@ -491,12 +522,11 @@ const CareerPath = () => {
       }
 
       const jsonText = cleanedText.substring(jsonStart, jsonEnd);
-
       const roadmapData = safeParseJson(jsonText);
       setRoadmap(roadmapData);
     } catch (err) {
-      console.error("Error generating roadmap:", err.message);
-      setError("Failed to generate roadmap. Please try again with different inputs.");
+      console.error("Error generating roadmap:", err.message, err.stack);
+      setError(`Failed to generate roadmap: ${err.message}. Please check your API key, network, or try again later.`);
     } finally {
       setLoading(false);
     }
@@ -774,7 +804,6 @@ const CareerPath = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden flex items-center justify-center pt-20">
-      {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gray-600/20 rounded-full blur-3xl animate-pulse"></div>
         <div
@@ -822,7 +851,6 @@ const CareerPath = () => {
           Indian education system.
         </p>
 
-        {/* Form */}
         <div className="space-y-8">
           <h2 className="text-3xl font-bold text-center text-white mb-8 animate-fadeInUp">Tell us about yourself</h2>
 
@@ -1112,7 +1140,6 @@ const CareerPath = () => {
           </button>
         </div>
 
-        {/* Roadmap Display */}
         {roadmap && (
           <div className="mt-12 bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:shadow-gray-500/25 transition-all duration-500">
             <h2 className="text-4xl font-bold text-center text-white mb-12 animate-fadeInUp">Your Career Roadmap</h2>
@@ -1310,7 +1337,6 @@ const CareerPath = () => {
         )}
       </div>
 
-      {/* Custom CSS for animations */}
       <style>{`
         @keyframes fadeInUp {
           from {
