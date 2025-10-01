@@ -5,9 +5,7 @@ import Login from './Components/Login';
 import Contact from './Components/Contact';
 import Register from './Components/Register';
 import Dashboard from './Components/Dashboard';
-import InterviewPrep from './Components/InterviewPrep';
 import CareerPath from './Components/Carrerpath';
-import EmailGenerator from './Components/EmailGenerator';
 import ResumeEmbed from './Components/ResumeEmbed';
 import Footer from './Components/Footer';
 import JobOpportunitiesAnalyzer from './Components/JobOpportunitiesAnalyzer';
@@ -17,6 +15,7 @@ import About from './Components/About';
 import Assesment from './Components/Assesment';
 import Scholarship from './Components/Scholarship';
 import Institute from './Components/Institute';
+import VerifyOtp from './VerifyOtp';
 
 // Layout component to include Navbar and Footer
 const LayoutWithFooter = ({ children }) => (
@@ -51,9 +50,10 @@ const App = () => {
         <Route path="/institute-finder" element={<LayoutWithFooter><Institute /></LayoutWithFooter>} />
 
         {/* Routes without Footer */}
-        <Route path="/interview-prep" element={<LayoutWithoutFooter><InterviewPrep /></LayoutWithoutFooter>} />
+        
         <Route path="/career" element={<LayoutWithoutFooter><CareerPath /></LayoutWithoutFooter>} />
-        <Route path="/email" element={<LayoutWithoutFooter><EmailGenerator /></LayoutWithoutFooter>} />
+        
+        <Route path="/verify" element={<LayoutWithoutFooter><VerifyOtp /></LayoutWithoutFooter>} />
         <Route path="/resume" element={<LayoutWithoutFooter><ResumeEmbed /></LayoutWithoutFooter>} />
         <Route path="/linkedin" element={<LayoutWithoutFooter><LinkedIn /></LayoutWithoutFooter>} />
         <Route path="/about" element={<LayoutWithoutFooter><About /></LayoutWithoutFooter>} />
