@@ -16,6 +16,7 @@ import Assesment from './Components/Assesment';
 import Scholarship from './Components/Scholarship';
 import Institute from './Components/Institute';
 import VerifyOtp from './VerifyOtp';
+import BoardExam from './Components/BoardExam';
 
 // Layout component to include Navbar and Footer
 const LayoutWithFooter = ({ children }) => (
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/dashboard" element={<LayoutWithFooter><Dashboard /></LayoutWithFooter>} />
         <Route path="/scholarship-finder" element={<LayoutWithFooter><Scholarship /></LayoutWithFooter>} />
         <Route path="/institute-finder" element={<LayoutWithFooter><Institute /></LayoutWithFooter>} />
+        <Route path="/board-exam" element={<LayoutWithFooter><BoardExam /></LayoutWithFooter>} />
 
         {/* Routes without Footer */}
         

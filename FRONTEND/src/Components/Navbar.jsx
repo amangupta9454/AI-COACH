@@ -82,6 +82,7 @@ const Navbar = () => {
       name: 'Career Tools',
       subLinks: [
         { name: 'Career Path Generator', to: '/career' },
+        { name: 'Board Exam Prepration', to: '/board-exam' },
         { name: 'Resume Builder', to: '/resume' },
         { name: 'Market Insights', to: '/carreranalyzer' },
         { name: 'LinkedIn Optimizer', to: '/linkedin' },
