@@ -88,6 +88,7 @@ const Navbar = () => {
         { name: 'LinkedIn Optimizer', to: '/linkedin' },
         { name: 'Skill Gap Analyzer', to: '/skillanalyzer' },
         { name: 'Online Exam', to: '/assesment' },
+        { name: 'Ai - Interviewer', to: '/interview' },
       ],
     },
     { name: 'Contact', to: '/contact' },

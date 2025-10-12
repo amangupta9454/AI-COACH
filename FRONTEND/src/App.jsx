@@ -17,7 +17,7 @@ import Scholarship from './Components/Scholarship';
 import Institute from './Components/Institute';
 import VerifyOtp from './VerifyOtp';
 import BoardExam from './Components/BoardExam';
-
+import Interview from './Components/interview';
 // Layout component to include Navbar and Footer
 const LayoutWithFooter = ({ children }) => (
   <>
@@ -45,6 +45,7 @@ const App = () => {
         <Route path="/register" element={<LayoutWithFooter><Register /></LayoutWithFooter>} />
         <Route path="/contact" element={<LayoutWithFooter><Contact /></LayoutWithFooter>} />
         <Route path="/skillanalyzer" element={<LayoutWithFooter><SkillAnalyzer /></LayoutWithFooter>} />
+        <Route path="/interview" element={<LayoutWithFooter><Interview /></LayoutWithFooter>} />
         <Route path="/carreranalyzer" element={<LayoutWithFooter><JobOpportunitiesAnalyzer /></LayoutWithFooter>} />
         <Route path="/dashboard" element={<LayoutWithFooter><Dashboard /></LayoutWithFooter>} />
         <Route path="/scholarship-finder" element={<LayoutWithFooter><Scholarship /></LayoutWithFooter>} />
