@@ -71,7 +71,7 @@ const VerifyOtp = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/users/verify', { email, otp });
+      const res = await axios.post('https://ai-coach-3mj0.onrender.com/api/users/verify', { email, otp });
       setMessage(res.data.message);
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {

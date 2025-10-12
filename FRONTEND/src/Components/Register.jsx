@@ -25,7 +25,7 @@ const Register = () => {
     if (file) formData.append('profileImage', file);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/users/signup', formData, {
+      const res = await axios.post('https://ai-coach-3mj0.onrender.com/api/users/signup', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setMessage(`${res.data.message}. Redirecting to OTP verification...`);
