@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaInstagram, FaLinkedin, FaGithub, FaWhatsapp, FaArrowUp, FaTimes,FaTwitter  } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin,  FaWhatsapp, FaArrowUp, FaTimes,FaTwitter  } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {

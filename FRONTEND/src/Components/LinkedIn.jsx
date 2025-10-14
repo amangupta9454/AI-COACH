@@ -4,8 +4,8 @@ import { FiUser, FiMail, FiTarget, FiEdit3, FiTrendingUp, FiMessageSquare, FiCop
 
 const LinkedIn = () => {
   // Initialize Gemini API
-  const genAI = new GoogleGenerativeAI('AIzaSyDa8pPuFZWAdLnqxo5zPLUovzlju5fC9-s');// new api key using linkedin email amangupta email se
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const genAI = new GoogleGenerativeAI('AIzaSyCYV2uxFheCh12cY5Ifxtyls4lJckKXQ2Q');// new api key using linkedin email amangupta email se
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   // State for Profile Optimization Form
   const [profileForm, setProfileForm] = useState({
