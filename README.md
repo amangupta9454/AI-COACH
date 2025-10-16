@@ -55,32 +55,15 @@ AI_PROJECT/
 │   │   ├── db.js
 │   │   ├── cloudinary.js
 │   ├── controllers/
-│   │   ├── aiController.js
-│   │   ├── authController.js
-│   │   ├── emailController.js
-│   │   ├── questionController.js
-│   │   ├── sessionController.js
 │   │   ├── userController.js
 │   ├── middleware/
 │   │   ├── authMiddleware.js
 │   ├── models/
-│   │   ├── Email.js
-│   │   ├── Question.js
-│   │   ├── Session.js
 │   │   ├── User.js
 │   ├── routes/
 │   │   ├── authRoutes.js
-│   │   ├── emailRoutes.js
-│   │   ├── questionRoutes.js
-│   │   ├── sessionRoutes.js
 │   ├── tmp/
 │   │   └── (user images, etc.)
-│   ├── utils/
-│   │   ├── emailPrompt.js
-│   │   ├── otpGenerator.js
-│   │   ├── prompt.js
-│   │   ├── sendEmail.js
-│   │   ├── validate.js
 ├── FRONTEND/
 │   ├── .env
 │   ├── .gitignore
