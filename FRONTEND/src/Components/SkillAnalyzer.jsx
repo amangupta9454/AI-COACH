@@ -59,8 +59,8 @@ const SkillAnalyzer = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const genAI = new GoogleGenerativeAI('AIzaSyCHrdhrzDh1TMPSnnkP0dtkzKo6jboFhic'); // new api key using skill analyzer email dipanjali
+const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY2;
+  const genAI = new GoogleGenerativeAI(API_KEY); // new api key using skill analyzer email dipanjali
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
